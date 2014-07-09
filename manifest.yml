@@ -6,14 +6,14 @@ applications:
 
 # the name of the app that you will use in `cf` commands
 
-- name:    private-repo
+- name:    private-packages
 
 # the indented values are settings for the app they are indented under
 
   # this is the host name of your app
   # using the random-word symbol will assign a unique hostname for this app
 
-  host:    private-repo-${random-word}
+  host:    private-packages-${random-word}
 
   # amount of RAM we'll need.  Prolly could get by with less!
 

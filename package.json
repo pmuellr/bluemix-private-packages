@@ -1,5 +1,5 @@
 {
-  "name":           "bluemix-private-repos",
+  "name":           "bluemix-private-packages",
   "scripts": {
     "start":        "node server",
     "postinstall":  "sh install-private-packages.sh"

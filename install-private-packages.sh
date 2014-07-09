@@ -1,5 +1,9 @@
 # Licensed under the Apache License. See footer for details.
 
+# ensure we're in same directory as this script
+cd `dirname $0`
+
+#-------------------------------------------------------------------------------
 echo "copying private module cfenv"
 cp -R node_modules_private/node_modules/cfenv node_modules
 
