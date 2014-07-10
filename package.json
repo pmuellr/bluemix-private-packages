@@ -2,7 +2,7 @@
   "name":           "bluemix-private-packages",
   "scripts": {
     "start":        "node server",
-    "postinstall":  "sh install-private-packages.sh"
+    "postinstall":  "node node_modules_private/post-install"
   },
   "dependencies": {
     "express":      "3.5.x"
