@@ -88,7 +88,9 @@ In the middle of the `npm install` output, you should see something like this:
 
     post-install.js: running `npm install`
     underscore@1.6.0 node_modules/underscore
-
+    
+    ncp@2.0.0 node_modules/ncp
+    
     cfenv@0.2.0 node_modules/cfenv
     +-- ports@1.1.0
     +-- js-yaml@3.0.2 (esprima@1.0.4, argparse@0.1.15)
@@ -97,8 +99,6 @@ In the middle of the `npm install` output, you should see something like this:
     moar npm output here
     ...
 
-    post-install.js: running `cp -R "node_modules/cfenv" ../node_modules`
-    post-install.js: running `cp -R "node_modules/underscore" ../node_modules`
     post-install.js: done
     ...
 
@@ -112,11 +112,9 @@ The `post-install.js` script is does the following:
   directory we are using to manage our private packages
 
 * runs `npm install` in that directory - this will install the private
-  packages based on the `node_modules_private/package.json` file, which uses
-  `npm` URL dependencies to manage the private packages
+  packages based on the `node_modules_private/package.json` file, which uses `npm` URL dependencies to manage the private packages
 
-* copies the packages it just `npm install`'d, into the main project's
-  `node_modules` directory
+* uses [npc](https://www.npmjs.com/package/ncp) to copy the packages it just `npm install`'d, into the main project's `node_modules` directory
 
 At this point, you can run the app by running
 
@@ -170,6 +168,7 @@ dependencies for our private packages.  The contents for this example are:
   "name": "node_modules_private",
   "version": "0.0.0",
   "dependencies": {
+    "ncp": "2.0.0",
     "cfenv":      "git://github.com/cloudfoundry-community/node-cfenv.git#0.2.0",
     "underscore": "*"
   }
@@ -178,7 +177,7 @@ dependencies for our private packages.  The contents for this example are:
 
 The URL for the `cfenv` package points to a GitHub repo, and the `commit-ish`
 fragment identifies a particular tag.  I included `underscore` just to make
-sure the code works with more than one package `:-)`
+sure the code works with more than one package `:-)` Please note that you should not remove the `ncp` package because it is used to support recursive copying on Windows machines as well as Unix-based systems. It will not be copied into your `/node_modules` directory.
 
 You should also copy the `node_modules_private/post-install.js` script
 into your `node_modules_private` directory.
@@ -207,10 +206,6 @@ have an entry for `node_modules`.  If you do, change it to `/node_modules`.
 
 caveats
 ================================================================================
-
-* This will not work on Windows, because the `post-install.js` script ends up
-  issuing unix/mac compatible `cp` commands.  This should be an easy fix, I
-  just don't have a quick way of testing it.  Send me a pull request!
 
 * I don't believe the `node_modules_private` name is hard-coded anywhere, except
   in the main project's `project.json` postinstall script property.  So, feel
